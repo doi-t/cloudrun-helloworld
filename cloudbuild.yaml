@@ -1,0 +1,30 @@
+steps:
+  # build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/cloudrun-helloworld', '.']
+  # push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/cloudrun-helloworld']
+  # Deploy container image to Cloud Run
+  # MYSQL_PASSWORD is decrypted before this step runs.
+  # Note: You need a shell to resolve environment variables with $$
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: [
+    'beta', 'run', 'deploy', 'helloworld', \
+    '--image', 'gcr.io/$PROJECT_ID/cloudrun-helloworld', \
+    '--region', 'asia-northeast1', \
+    '--platform', 'managed', '--quiet', \
+    '--add-cloudsql-instances', '$PROJECT_ID:asia-northeast1:cloudrun-test3' \
+    '--set-env-vars', 'TARGET=test1' \
+    '--set-env-vars', 'MYSQL_USER=root', \
+    '--set-env-vars', 'MYSQL_PASSWORD="$$MYSQL_PASSWORD"', \
+    '--set-env-vars', 'MYSQL_INSTANCE_CONNECTION_NAME=$PROJECT_ID:asia-northeast1:cloudrun-test3', \
+    '--set-env-vars', 'MYSQL_DATABASE_NAME=guestbook'
+  ]
+  secretEnv: ['MYSQL_PASSWORD']
+images:
+- gcr.io/$PROJECT_ID/cloudrun-helloworld
+secrets:
+- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/cloudrun-test/cryptoKeys/helloworld
+  secretEnv:
+    MYSQL_PASSWORD: CiQAwuC6WLSLi8/Kwshw6h9Ln2q+ox9LqBW8lTjY2GiS2QKUHbwSRwAGQfbkIlE0VOay/OB4Dc+N6i8Pr2pDCwQajkxgHNdaaShPgV2WWE6aVfJCXLMPPlAs2q2tAkUSwypCi80L820jeRvQi2Z7
