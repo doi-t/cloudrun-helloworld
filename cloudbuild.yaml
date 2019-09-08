@@ -19,7 +19,7 @@ steps:
     --platform managed \
     --quiet \
     --add-cloudsql-instances $PROJECT_ID:asia-northeast1:cloudrun-test3 \
-    --set-env-vars TARGET=test2 \
+    --set-env-vars TARGET=test3 \
     --set-env-vars MYSQL_USER=root \
     --set-env-vars MYSQL_PASSWORD="$$MYSQL_PASSWORD" \
     --set-env-vars MYSQL_INSTANCE_CONNECTION_NAME=$PROJECT_ID:asia-northeast1:cloudrun-test3 \
