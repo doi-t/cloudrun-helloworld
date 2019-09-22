@@ -1,4 +1,4 @@
-package main
+package helloworld
 
 // Sample code reference: https://cloud.google.com/functions/docs/sql#functions_sql_mysql-go
 
@@ -73,7 +73,7 @@ func MySQLDemo(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
+func helloworld() {
 	log.Print("MySQLDemo sample started.")
 
 	http.HandleFunc("/", MySQLDemo)
