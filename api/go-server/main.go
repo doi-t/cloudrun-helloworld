@@ -20,7 +20,7 @@ import (
 	//
 	//    sw "github.com/myname/myrepo/go"
 	//
-	sw "./go"
+	sw "github.com/doi-t/cloudrun-helloworld/api/go-server/go"
 )
 
 func main() {
